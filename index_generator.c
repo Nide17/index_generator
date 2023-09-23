@@ -9,6 +9,7 @@
 #define WORD_LEN 20
 #define WORD_LINE_COUNT 20
 #define UNIQ_WORDS_COUNT 1200
+#define OUTPUT_FILE "./out/out.out"
 
 // WORD STRUCTURE
 typedef struct
@@ -23,6 +24,7 @@ word_t words[UNIQ_WORDS_COUNT];
 
 // OTHER VARIABLES
 int unique_word_count = 0;
+FILE *output;
 
 /*
  * Record a word into the array of words structure
@@ -205,13 +207,15 @@ void print_sorted(word_t *words)
                 strcat(word_lines, temp);
             }
 
+            printf("Hello\n");
+
+            fprintf(output, "%-*s [%d]: %s\n", 15, words[i].wrd, words[i].wrd_occ, word_lines);
             // OUTPUTTING TO THE FILE - PRINTING ERROR WHEN RETURN VALUE IS < 0
             if (fprintf(stdout, "%-*s [%d]: %s\n", 15, words[i].wrd, words[i].wrd_occ, word_lines) < 0)
             {
                 fprintf(stderr, "Error writing to output: %s\n", strerror(errno));
                 exit(1);
             }
-            printf("%-*s [%d]: %s\n", 15, words[i].wrd, words[i].wrd_occ, word_lines);
         }
     }
 }
@@ -223,6 +227,13 @@ int main()
 
     // POINTING TO THE START OF THE OF THE FIRST LINE
     char *ptr_line = input_line_buf;
+
+    output = fopen(OUTPUT_FILE, "w");
+    if (output == NULL)
+    {
+        fprintf(stderr, "Error opening output %s: %s\n", OUTPUT_FILE, strerror(errno));
+        exit(1);
+    }
 
     // READING LINE BY LINE FROM INPUT FILE
     int line_number = 0;
@@ -271,5 +282,6 @@ int main()
         exit(1);
     }
 
+    fclose(output);
     return 0;
 }
