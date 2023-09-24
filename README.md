@@ -33,7 +33,6 @@ gcc -Wall -Werror index_generator.c -o index_generator
 ```
 assignment4_tester.py ./index_generator
 ```
-* Replace input.txt with your own text file for indexing.
   
 __TESTING__
 
