@@ -1,3 +1,13 @@
+/*
+ * index_generator.c
+ *
+ * An implementation of a program that reads text from stdin and prints a list of words and their occurencies to stdout.
+ * The program also prints the line numbers where each word appears.
+ * The program also ignores common words defined in common_words.h.
+ * The program also prints an error message to stderr if the input has more than 1200 unique words, after common words are discounted, the word is longer than 20 characters, the word appears on more than 20 lines, a line longer than 254 characters is encountered, and no words are found.
+ *
+ * Author: Niyomwungeri Parmenide ISHIMWE <parmenin@andrew.cmu.edu>
+ */
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -193,11 +203,9 @@ int compare_words(const void *a, const void *b)
     const word_t *wordA = (const word_t *)a;
     const word_t *wordB = (const word_t *)b;
 
-    // COMPARING WORDS BY OCCURENCE IF NOT EQUAL
+    // COMPARING WORDS BY OCCURENCE IF NOT EQUAL, AND BY ALPHA ORDER OTHERWISE
     if (wordB->wrd_occ != wordA->wrd_occ)
         return wordB->wrd_occ - wordA->wrd_occ;
-
-    // OTHERWISE, ORDER BY ALPHABETICAL ORDER
     else
         return strcmp(wordA->wrd, wordB->wrd) > 0;
 }
